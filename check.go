@@ -5,17 +5,13 @@ import (
 	"net/http"
 )
 
-type IndexHandler struct {
-}
-
-func (h *IndexHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func ServeIndex(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Up")
 }
 
 func main() {
 	mux := http.NewServeMux()
-	handler := new(IndexHandler)
-	mux.Handle("/", handler)
+	mux.Handle("/", http.HandlerFunc(ServeIndex))
 	server := http.Server{Handler: mux}
 	fmt.Println("Started")
 	server.ListenAndServe()

@@ -13,8 +13,7 @@ import (
 var _ = Describe("Port Checker Server", func() {
 	Describe("/", func() {
 		It("returns 200 OK", func() {
-			handler := new(IndexHandler)
-			server := httptest.NewServer(handler)
+			server := httptest.NewServer(http.HandlerFunc(ServeIndex))
 			defer server.Close()
 
 			resp, err := http.Get(server.URL)

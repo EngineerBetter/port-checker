@@ -5,6 +5,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 )
@@ -16,8 +17,10 @@ var _ = Describe("Port Checker Server", func() {
 			server := httptest.NewServer(handler)
 			defer server.Close()
 
-			_, err := http.Get(server.URL)
+			resp, err := http.Get(server.URL)
 			Ω(err).ShouldNot(HaveOccurred())
+			body, err := ioutil.ReadAll(resp.Body)
+			Ω(string(body)).Should(Equal("Up"))
 		})
 	})
 })
